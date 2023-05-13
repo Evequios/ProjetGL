@@ -1,0 +1,25 @@
+Structure du projet GL
+
+Station :
+	- Nom
+	- Incident
+	- Temps d'arrêt
+	- Localisation
+Itinéraire :
+	- Station départ
+	- Station d'arrivée
+	- Stations intermédiaire
+	- Durée
+Ligne : 
+	- Nom
+	- Incident
+Incident : 
+	- Type
+	- Stations
+	- Ligne
+Algos:
+	- les algos
+Metro (main):
+	- Graphe (ou ptet dans une autre classe)
+	- Paramètres de lancement de l'appli
+

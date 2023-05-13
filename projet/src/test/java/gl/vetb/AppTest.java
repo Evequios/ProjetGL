@@ -1,4 +1,4 @@
-package gl.ev.se.ot.kb;
+package gl.vetb;
 
 import static org.junit.Assert.assertTrue;
 
