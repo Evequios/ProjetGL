@@ -5,9 +5,13 @@ import java.util.List;
 import java.util.Map;
 
 public class Graphe {
+    private List<Station> stations;
+    private List<Itineraire> itineraires;
     private Map<String, Map<String, Integer>> graphe; // HashMap avec les distances entre les stations
 
     public Graphe(List<Station> stations, List<Itineraire> itineraires) {
+        this.stations = stations;
+        this.itineraires = itineraires;
         graphe = new HashMap<>();
 
         // Initialisation du graphe avec toutes les stations et leurs relations
@@ -57,5 +61,21 @@ public class Graphe {
 
     public void setGraphe(Map<String, Map<String, Integer>> graphe) {
         this.graphe = graphe;
+    }
+
+    public List<Station> getStations() {
+        return stations;
+    }
+
+    public void setStations(List<Station> stations) {
+        this.stations = stations;
+    }
+
+    public List<Itineraire> getItineraires() {
+        return itineraires;
+    }
+
+    public void setItineraires(List<Itineraire> itineraires) {
+        this.itineraires = itineraires;
     }
 } 
