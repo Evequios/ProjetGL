@@ -38,11 +38,11 @@ public class GrapheTests {
             new Itineraire(s1, s3, null, 20)
         );
 
-        HashMap<String, Integer> expecteds = new HashMap<>();
-        expecteds.put("B", 10);
-        expecteds.put("C", 20);
-        var g = new Graphe(stations, itineraires).getRelations("A");
-        for(Map.Entry<String, Integer> entry : g.entrySet()){
+        HashMap<Station, Integer> expecteds = new HashMap<>();
+        expecteds.put(s2, 10);
+        expecteds.put(s3, 20);
+        var g = new Graphe(stations, itineraires).getRelations(s1);
+        for(Map.Entry<Station, Integer> entry : g.entrySet()){
             assertEquals(expecteds.get(entry.getKey()), g.get(entry.getKey()));
         }
     }
