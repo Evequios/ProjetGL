@@ -47,6 +47,22 @@ public class Graphe {
         graphe.put(station, relations);
     }
 
+    public Station calculerStationPlusProche(List<Station> stations, double positionAbs, double positionOrd) {
+        Station stationPlusProche = null;
+        double distanceMin = Double.MAX_VALUE;
+    
+        for (Station station : stations) {
+            double distance = Math.abs(station.getAbscisse() - positionAbs) + Math.abs(station.getOrdonnee() - positionOrd);
+    
+            if (distance < distanceMin) {
+                distanceMin = distance;
+                stationPlusProche = station;
+            }
+        }
+    
+        return stationPlusProche;
+    }
+
     // Méthode pour récupérer les relations d'une station donnée
     public Map<Station, Integer> getRelations(Station station) {
         return graphe.get(station);
