@@ -51,7 +51,7 @@ public class Main {
         Itineraire iOrleansIssy = new Itineraire(s4, s9, null, 210);
         
         Itineraire iBercyOrleans = new Itineraire(s5, s4, null, 210);
-        Itineraire iBercyAusterlitz = new Itineraire(s6, s8, null, 150);
+        Itineraire iBercyAusterlitz = new Itineraire(s5, s8, null, 150);
         Itineraire iBercyVincennes = new Itineraire(s5, s6, null, 90);
         Itineraire iBercyIssy = new Itineraire(s5, s9, null, 270);
 
@@ -90,5 +90,19 @@ public class Main {
 
         //Creation du Graphe
         Graphe metro = new Graphe(listStations, listItineraires);
+        Itineraire cheminPlusCourt = metro.algoPlusCourtChemin(s12, s9);
+        System.out.println("Départ : " + cheminPlusCourt.getDepart().getNom());
+        System.out.println("Stations intermédiaires : ");
+        for(Station s : cheminPlusCourt.getStationsIntermediaires()){
+            System.out.println(s.getNom());
+        }
+        System.out.println("Arrivée : " + cheminPlusCourt.getArrivee().getNom());
+        System.out.println("Durée : " + cheminPlusCourt.getDuree());
+
+        //problème avec les stations voisines
+        // List<Station> stationsVoisines = metro.getStationsVoisines(s6);
+        // for(Station s : stationsVoisines){
+        //     System.out.println(s.getNom());
+        // }
     }
 }
