@@ -33,55 +33,131 @@ public class Graphe {
         }
     }
 
-    public Itineraire algoPlusCourtChemin(Station depart, Station arrivee){
-        Map<Station, Integer> durees = new HashMap<Station, Integer>();
-        List<Itineraire> itineraires = new ArrayList<Itineraire>();
-        List<Station> visitees = new ArrayList<Station>();
-
-        for (Station station : stations){
+    public Itineraire algoPlusCourtChemin(Station depart, Station arrivee) {
+        Map<Station, Integer> durees = new HashMap<>();
+        List<Itineraire> itineraires = new ArrayList<>();
+        List<Station> visitees = new ArrayList<>();
+    
+        for (Station station : stations) {
             durees.put(station, Integer.MAX_VALUE);
         }
         durees.put(depart, 0);
-
-        while(!visitees.contains(arrivee)){
-            // A changer en Station currentStation = getPlusProcheStation()
-            Station stationActuelle = new Station("a", null, false, 0, 0, 0);
+    
+        Station stationActuelle = depart;
+        while (!visitees.contains(arrivee)) {
             visitees.add(stationActuelle);
-
-            for(Station stationVoisine : getStationsVoisines(stationActuelle)){
-                if (!visitees.contains(stationVoisine)){
+    
+            for (Station stationVoisine : getStationsVoisines(stationActuelle)) {
+                if (!visitees.contains(stationVoisine)) {
                     Itineraire chemin = null;
-                    for(Itineraire i : getItineraires()){
-                        if(i.getDepart() == stationActuelle && i.getArrivee() == stationVoisine){
+                    for (Itineraire i : getItineraires()) {
+                        if (i.getDepart() == stationActuelle && i.getArrivee() == stationVoisine) {
                             chemin = i;
                             break;
                         }
                     }
+                    if(chemin == null){
+                        System.out.println("here");
+                    }
                     int duree = durees.get(stationActuelle) + chemin.getDuree() + chemin.getDepart().getTempsArret();
-                    if(duree < durees.get(stationVoisine)){
+                    if (duree < durees.get(stationVoisine)) {
                         durees.put(stationVoisine, duree);
                         itineraires.add(chemin);
                     }
                 }
             }
+    
+            Station prochaineStation = null;
+            int dureeMin = Integer.MAX_VALUE;
+            for (Map.Entry<Station, Integer> entry : durees.entrySet()) {
+                Station station = entry.getKey();
+                int duree = entry.getValue();
+                if (!visitees.contains(station) && duree < dureeMin) {
+                    prochaineStation = station;
+                    dureeMin = duree;
+                }
+            }
+            if (prochaineStation == null) {
+                break; // Aucune station accessible non visitée
+            }
+            stationActuelle = prochaineStation;
         }
-
+    
         // Itinéraire le plus court
         Itineraire itinerairePlusCourt = new Itineraire(depart, arrivee, null, 0);
-        List<Station> stationsIndermediaires = new ArrayList<Station>();
+        List<Station> stationsIntermediaires = new ArrayList<>();
         Station station = arrivee;
-        while(station != depart){
-            stationsIndermediaires.add(0,station);
-            for(Itineraire i : itineraires){
-                if(i.getArrivee() == station){
+        int duree = 0;
+        while (station != depart) {
+            if(station != arrivee){
+                stationsIntermediaires.add(0, station);
+            }
+            for (Itineraire i : itineraires) {
+                if (i.getArrivee() == station) {
                     station = i.getDepart();
+                    duree += i.getDuree();
+                    break;
                 }
             }
         }
-        
-        itinerairePlusCourt.setStationsIntermediaires(stationsIndermediaires);
+    
+        itinerairePlusCourt.setStationsIntermediaires(stationsIntermediaires);
+        itinerairePlusCourt.setDuree(duree);
         return itinerairePlusCourt;
     }
+
+    // public Itineraire algoPlusCourtChemin(Station depart, Station arrivee){
+    //     Map<Station, Integer> durees = new HashMap<Station, Integer>();
+    //     List<Itineraire> itineraires = new ArrayList<Itineraire>();
+    //     List<Station> visitees = new ArrayList<Station>();
+
+    //     for (Station station : stations){
+    //         durees.put(station, Integer.MAX_VALUE);
+    //     }
+    //     durees.put(depart, 0);
+
+    //     Station stationActuelle = depart;
+    //     while(!visitees.contains(arrivee)){
+    //         // A changer en Station currentStation = getPlusProcheStation()
+    //         stations.remove(stationActuelle);
+    //         stationActuelle = calculerStationPlusProche(stations, stationActuelle.getAbscisse(), stationActuelle.getOrdonnee());
+    //         visitees.add(stationActuelle);
+
+    //         for(Station stationVoisine : getStationsVoisines(stationActuelle)){
+    //             if (!visitees.contains(stationVoisine)){
+    //                 Itineraire chemin = null;
+    //                 for(Itineraire i : getItineraires()){
+    //                     if(i.getDepart() == stationActuelle && i.getArrivee() == stationVoisine){
+    //                         chemin = i;
+    //                         break;
+    //                     }
+    //                 }
+    //                 int duree = durees.get(stationActuelle) + chemin.getDuree() + chemin.getDepart().getTempsArret();
+    //                 if(duree < durees.get(stationVoisine)){
+    //                     durees.put(stationVoisine, duree);
+    //                     itineraires.add(chemin);
+    //                 }
+    //             }
+    //         }
+    //         System.out.println("A");
+    //     }
+
+    //     // Itinéraire le plus court
+    //     Itineraire itinerairePlusCourt = new Itineraire(depart, arrivee, null, 0);
+    //     List<Station> stationsIndermediaires = new ArrayList<Station>();
+    //     Station station = arrivee;
+    //     while(station != depart){
+    //         stationsIndermediaires.add(0,station);
+    //         for(Itineraire i : itineraires){
+    //             if(i.getArrivee() == station){
+    //                 station = i.getDepart();
+    //             }
+    //         }
+    //     }
+        
+    //     itinerairePlusCourt.setStationsIntermediaires(stationsIndermediaires);
+    //     return itinerairePlusCourt;
+    // }
 
     
     public List<Station> getStationsVoisines(Station station){
@@ -107,6 +183,22 @@ public class Graphe {
             }
         }
         graphe.put(station, relations);
+    }
+
+    public Station calculerStationPlusProche(List<Station> stations, double positionAbs, double positionOrd) {
+        Station stationPlusProche = null;
+        double distanceMin = Double.MAX_VALUE;
+    
+        for (Station station : stations) {
+            double distance = Math.abs(station.getAbscisse() - positionAbs) + Math.abs(station.getOrdonnee() - positionOrd);
+    
+            if (distance < distanceMin) {
+                distanceMin = distance;
+                stationPlusProche = station;
+            }
+        }
+    
+        return stationPlusProche;
     }
 
     // Méthode pour récupérer les relations d'une station donnée
