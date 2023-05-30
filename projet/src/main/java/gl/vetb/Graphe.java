@@ -230,4 +230,59 @@ public class Graphe {
     public void setItineraires(List<Itineraire> itineraires) {
         this.itineraires = itineraires;
     }
-} 
+
+
+
+
+    public List<Itineraire> algoItineraireAvecPassages(Station depart, Station arrivee, List<Station> stationsPassage) {
+
+        List<Itineraire> itineraires = new ArrayList<>();
+        
+        // Vérification si les stations de départ, d'arrivée et les stations de passage sont présentes dans le graphe
+        if (!stations.contains(depart) || !stations.contains(arrivee) || !stations.containsAll(stationsPassage)) {
+            // L'une des stations spécifiées n'existe pas dans le graphe, retourner une liste vide
+            return itineraires;
+        }
+        
+        // Calcul de l'itinéraire de départ à arrivée sans prendre en compte les stations de passage
+        Itineraire itineraireSansPassages = algoPlusCourtChemin(depart, arrivee);
+        
+        // Vérification si un itinéraire direct existe sans passer par les stations de passage
+        if (itineraireSansPassages != null) {
+            itineraires.add(itineraireSansPassages);
+        }
+        
+        // Calcul des itinéraires en passant par chaque station de passage
+        for (Station stationPassage : stationsPassage) {
+            // Vérification si la station de passage est différente de la station de départ et d'arrivée
+            if (!stationPassage.equals(depart) && !stationPassage.equals(arrivee)) {
+                // Calcul de l'itinéraire de départ à station de passage
+                Itineraire itineraireDepartPassage = algoPlusCourtChemin(depart, stationPassage);
+                
+                // Calcul de l'itinéraire de station de passage à arrivée
+                Itineraire itinerairePassageArrivee = algoPlusCourtChemin(stationPassage, arrivee);
+                
+                // Vérification si les deux itinéraires existent
+                if (itineraireDepartPassage != null && itinerairePassageArrivee != null) {
+                    // Création d'un nouvel itinéraire en combinant les deux itinéraires
+                    Itineraire itineraireAvecPassage = new Itineraire(depart, arrivee, null,
+                        itineraireDepartPassage.getDuree() + itinerairePassageArrivee.getDuree());
+                    
+                    // Ajout des stations intermédiaires en excluant la première station de l'itinéraire de passage
+                    List<Station> stationsIntermediaires = new ArrayList<>(itineraireDepartPassage.getStationsIntermediaires());
+                    stationsIntermediaires.remove(stationsIntermediaires.size() - 1);
+                    stationsIntermediaires.addAll(itinerairePassageArrivee.getStationsIntermediaires());
+                    itineraireAvecPassage.setStationsIntermediaires(stationsIntermediaires);
+                    
+                    // Ajout de l'itinéraire à la liste des itinéraires
+                    itineraires.add(itineraireAvecPassage);
+                }
+            }
+        }
+        
+        return itineraires;
+    }
+
+}
+
+
