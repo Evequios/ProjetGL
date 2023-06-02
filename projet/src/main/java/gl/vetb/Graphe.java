@@ -11,6 +11,7 @@ public class Graphe {
     private List<Itineraire> itineraires;
     private Map<Station, Map<Station, Integer>> graphe; // HashMap avec le temps de trajet entre les stations
 
+    // Méthodes d'initialisation du Graphe
     public Graphe(List<Station> stations, List<Itineraire> itineraires) {
         this.stations = stations;
         this.itineraires = itineraires;
@@ -20,16 +21,20 @@ public class Graphe {
         for (Station station : stations) {
             Map<Station, Integer> relations = new HashMap<>();
             for (Itineraire itineraire : itineraires) {
-                Station depart = itineraire.getDepart();
-                Station arrivee = itineraire.getArrivee();
-                if (depart.equals(station)) {
-                    relations.put(arrivee, itineraire.getDuree());
-                }
-                else if (arrivee.equals(station)) {
-                    relations.put(depart, itineraire.getDuree());
-                }
+                ajoutRelation(station, relations, itineraire);
             }
             graphe.put(station, relations);
+        }
+    }
+
+    private void ajoutRelation(Station station, Map<Station, Integer> relations, Itineraire itineraire) {
+        Station depart = itineraire.getDepart();
+        Station arrivee = itineraire.getArrivee();
+        if (depart.equals(station)) {
+            relations.put(arrivee, itineraire.getDuree());
+        }
+        else if (arrivee.equals(station)) {
+            relations.put(depart, itineraire.getDuree());
         }
     }
 
@@ -44,28 +49,11 @@ public class Graphe {
         durees.put(depart, 0);
     
         Station stationActuelle = depart;
-        while (!visitees.contains(arrivee)) {
+        boolean fin = false;
+        while (!fin) {
             visitees.add(stationActuelle);
     
-            for (Station stationVoisine : getStationsVoisines(stationActuelle)) {
-                if (!visitees.contains(stationVoisine)) {
-                    Itineraire chemin = null;
-                    for (Itineraire i : getItineraires()) {
-                        if (i.getDepart() == stationActuelle && i.getArrivee() == stationVoisine) {
-                            chemin = i;
-                            break;
-                        }
-                    }
-                    if(chemin == null){
-                        System.out.println("here");
-                    }
-                    int duree = durees.get(stationActuelle) + chemin.getDuree() + chemin.getDepart().getTempsArret();
-                    if (duree < durees.get(stationVoisine)) {
-                        durees.put(stationVoisine, duree);
-                        itineraires.add(chemin);
-                    }
-                }
-            }
+            getItinerairesStationsVoisines(durees, itineraires, visitees, stationActuelle);
     
             Station prochaineStation = null;
             int dureeMin = Integer.MAX_VALUE;
@@ -81,10 +69,11 @@ public class Graphe {
                 break; // Aucune station accessible non visitée
             }
             stationActuelle = prochaineStation;
+            fin = visitees.contains(arrivee);
         }
     
         // Itinéraire le plus court
-        Itineraire itinerairePlusCourt = new Itineraire(depart, arrivee, null, 0);
+        Itineraire itinerairePlusCourt = new Itineraire(depart, arrivee);
         List<Station> stationsIntermediaires = new ArrayList<>();
         Station station = arrivee;
         int duree = 0;
@@ -106,59 +95,24 @@ public class Graphe {
         return itinerairePlusCourt;
     }
 
-    // public Itineraire algoPlusCourtChemin(Station depart, Station arrivee){
-    //     Map<Station, Integer> durees = new HashMap<Station, Integer>();
-    //     List<Itineraire> itineraires = new ArrayList<Itineraire>();
-    //     List<Station> visitees = new ArrayList<Station>();
-
-    //     for (Station station : stations){
-    //         durees.put(station, Integer.MAX_VALUE);
-    //     }
-    //     durees.put(depart, 0);
-
-    //     Station stationActuelle = depart;
-    //     while(!visitees.contains(arrivee)){
-    //         // A changer en Station currentStation = getPlusProcheStation()
-    //         stations.remove(stationActuelle);
-    //         stationActuelle = calculerStationPlusProche(stations, stationActuelle.getAbscisse(), stationActuelle.getOrdonnee());
-    //         visitees.add(stationActuelle);
-
-    //         for(Station stationVoisine : getStationsVoisines(stationActuelle)){
-    //             if (!visitees.contains(stationVoisine)){
-    //                 Itineraire chemin = null;
-    //                 for(Itineraire i : getItineraires()){
-    //                     if(i.getDepart() == stationActuelle && i.getArrivee() == stationVoisine){
-    //                         chemin = i;
-    //                         break;
-    //                     }
-    //                 }
-    //                 int duree = durees.get(stationActuelle) + chemin.getDuree() + chemin.getDepart().getTempsArret();
-    //                 if(duree < durees.get(stationVoisine)){
-    //                     durees.put(stationVoisine, duree);
-    //                     itineraires.add(chemin);
-    //                 }
-    //             }
-    //         }
-    //         System.out.println("A");
-    //     }
-
-    //     // Itinéraire le plus court
-    //     Itineraire itinerairePlusCourt = new Itineraire(depart, arrivee, null, 0);
-    //     List<Station> stationsIndermediaires = new ArrayList<Station>();
-    //     Station station = arrivee;
-    //     while(station != depart){
-    //         stationsIndermediaires.add(0,station);
-    //         for(Itineraire i : itineraires){
-    //             if(i.getArrivee() == station){
-    //                 station = i.getDepart();
-    //             }
-    //         }
-    //     }
-        
-    //     itinerairePlusCourt.setStationsIntermediaires(stationsIndermediaires);
-    //     return itinerairePlusCourt;
-    // }
-
+    private void getItinerairesStationsVoisines(Map<Station, Integer> durees, List<Itineraire> itineraires, List<Station> visitees, Station stationActuelle) {
+        for (Station stationVoisine : getStationsVoisines(stationActuelle)) {
+            if (!visitees.contains(stationVoisine)) {
+                Itineraire chemin = null;
+                for (Itineraire i : getItineraires()) {
+                    if (i.verifItineraire(stationActuelle, stationVoisine)) {
+                        chemin = i;
+                        break;
+                    }
+                }
+                int duree = durees.get(stationActuelle) + chemin.calculDureeItineraireSimple();
+                if (duree < durees.get(stationVoisine)) {
+                    durees.put(stationVoisine, duree);
+                    itineraires.add(chemin);
+                }
+            }
+        }
+    }
     
     public List<Station> getStationsVoisines(Station station){
         List<Station> stationsVoisines = new ArrayList<Station>();
@@ -173,14 +127,7 @@ public class Graphe {
     public void ajouterStation(Station station, List<Itineraire> itineraires) {
         Map<Station, Integer> relations = new HashMap<>();
         for (Itineraire itineraire : itineraires) {
-            Station depart = itineraire.getDepart();
-            Station arrivee = itineraire.getArrivee();
-            if (depart.equals(station)) {
-                relations.put(arrivee, itineraire.getDuree());
-            }
-            else if (arrivee.equals(station)) {
-                relations.put(depart, itineraire.getDuree());
-            }
+            ajoutRelation(station, relations, itineraire);
         }
         graphe.put(station, relations);
     }
