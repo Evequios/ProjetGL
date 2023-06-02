@@ -12,7 +12,7 @@ public class Itineraire {
         this.depart = depart;
         this.arrivee = arrivee;
         this.stationsIntermediaires = stationsIntermediaires;
-        this.duree = duree;
+        this.duree = depart.getTempsArret() + duree;
     }
 
     public Itineraire(Station depart, Station arrivee){
@@ -56,9 +56,5 @@ public class Itineraire {
 
     public Boolean verifItineraire(Station depart, Station arrivee){
         return (this.depart == depart && this.arrivee == arrivee);
-    }
-
-    public int calculDureeItineraireSimple (){
-        return getDepart().getTempsArret() + getDuree();
     }
 }

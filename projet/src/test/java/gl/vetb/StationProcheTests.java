@@ -32,7 +32,7 @@ public class StationProcheTests {
         double positionY = 2;
 
         // Appel de la méthode pour calculer la station la plus proche
-        Station stationPlusProche = g.calculerStationPlusProche(stations, positionX, positionY);
+        Station stationPlusProche = g.calculerStationPlusProche(positionX, positionY);
 
         // Vérification du résultat
         assertEquals(s3, stationPlusProche);
@@ -46,7 +46,7 @@ public class StationProcheTests {
         List<Itineraire> itineraires = List.of();
         g = new Graphe(stations, itineraires);
 
-        Station stationPlusProche = g.calculerStationPlusProche(stations, positionX, positionY);
+        Station stationPlusProche = g.calculerStationPlusProche(positionX, positionY);
         assertNull(stationPlusProche, "La station la plus proche devrait être null");
     }
 
@@ -61,7 +61,7 @@ public class StationProcheTests {
         g = new Graphe(stations, itineraires);
 
 
-        Station stationPlusProche = g.calculerStationPlusProche(stations, positionX, positionY);
+        Station stationPlusProche = g.calculerStationPlusProche(positionX, positionY);
 
         assertEquals(s1, stationPlusProche);
     }

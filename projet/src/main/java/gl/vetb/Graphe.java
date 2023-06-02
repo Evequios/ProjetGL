@@ -38,6 +38,7 @@ public class Graphe {
         }
     }
 
+
     public Itineraire algoPlusCourtChemin(Station depart, Station arrivee) {
         Map<Station, Integer> durees = new HashMap<>();
         List<Itineraire> itineraires = new ArrayList<>();
@@ -57,9 +58,9 @@ public class Graphe {
     
             Station prochaineStation = null;
             int dureeMin = Integer.MAX_VALUE;
-            for (Map.Entry<Station, Integer> entry : durees.entrySet()) {
-                Station station = entry.getKey();
-                int duree = entry.getValue();
+            for (Itineraire itineraire : itineraires) {
+                Station station = itineraire.getArrivee();
+                int duree = itineraire.getDuree();
                 if (!visitees.contains(station) && duree < dureeMin) {
                     prochaineStation = station;
                     dureeMin = duree;
@@ -105,7 +106,7 @@ public class Graphe {
                         break;
                     }
                 }
-                int duree = durees.get(stationActuelle) + chemin.calculDureeItineraireSimple();
+                int duree = durees.get(stationActuelle) + chemin.getDuree();
                 if (duree < durees.get(stationVoisine)) {
                     durees.put(stationVoisine, duree);
                     itineraires.add(chemin);
@@ -132,7 +133,7 @@ public class Graphe {
         graphe.put(station, relations);
     }
 
-    public Station calculerStationPlusProche(List<Station> stations, double positionAbs, double positionOrd) {
+    public Station calculerStationPlusProche(double positionAbs, double positionOrd) {
         Station stationPlusProche = null;
         double distanceMin = Double.MAX_VALUE;
     
@@ -190,6 +191,44 @@ public class Graphe {
         }
     
         return changementsLignes;
+    }
+
+    public Itineraire algoItineraireAvecPassages(Station depart, Station arrivee, List<Station> stationsPassage) {
+        
+        Itineraire itineraireAvecPassage = null;
+
+        // Vérification si les stations de départ, d'arrivée et les stations de passage sont présentes dans le graphe
+        if (!stations.contains(depart) || !stations.contains(arrivee) || !stations.containsAll(stationsPassage)) {
+            // L'une des stations spécifiées n'existe pas dans le graphe, retourner une liste vide
+            return null;
+        }
+        
+        // Calcul des itinéraires en passant par chaque station de passage
+        for (Station stationPassage : stationsPassage) {
+            // Vérification si la station de passage est différente de la station de départ et d'arrivée
+            if (!stationPassage.equals(depart) && !stationPassage.equals(arrivee)) {
+                // Calcul de l'itinéraire de départ à station de passage
+                Itineraire itineraireDepartPassage = algoPlusCourtChemin(depart, stationPassage);
+                
+                // Calcul de l'itinéraire de station de passage à arrivée
+                Itineraire itinerairePassageArrivee = algoPlusCourtChemin(stationPassage, arrivee);
+                
+                // Vérification si les deux itinéraires existent
+                if (itineraireDepartPassage != null && itinerairePassageArrivee != null) {
+                    // Création d'un nouvel itinéraire en combinant les deux itinéraires
+                    itineraireAvecPassage = new Itineraire(depart, arrivee, null,
+                        itineraireDepartPassage.getDuree() + itinerairePassageArrivee.getDuree());
+                    
+                    // Ajout des stations intermédiaires en excluant la première station de l'itinéraire de passage
+                    List<Station> stationsIntermediaires = new ArrayList<>(itineraireDepartPassage.getStationsIntermediaires());
+                    stationsIntermediaires.remove(stationsIntermediaires.size() - 1);
+                    stationsIntermediaires.addAll(itinerairePassageArrivee.getStationsIntermediaires());
+                    itineraireAvecPassage.setStationsIntermediaires(stationsIntermediaires);
+                }
+            }
+        }
+        
+        return itineraireAvecPassage;
     }
 
     // Méthode pour récupérer les relations d'une station donnée
