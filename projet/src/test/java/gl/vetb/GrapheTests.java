@@ -22,7 +22,7 @@ public class GrapheTests {
         Station s1 = new Station("A", null, false, 0, 0, 0);
         Station s2 = new Station("B", null, false, 0, 0, 0);
         List<Station> stations = List.of();
-        List<Itineraire> itineraires = List.of(new Itineraire(s1, s2, null, 10));
+        List<Itineraire> itineraires = List.of(new Itineraire(s1, s2, null, 10, null));
         var g = new Graphe(stations, itineraires).getStations();
         assertEquals(g,List.of());
     }
@@ -34,8 +34,8 @@ public class GrapheTests {
         Station s3 = new Station("C", null, false, 0, 0, 0);
         List<Station> stations = List.of(s1, s2);
         List<Itineraire> itineraires = List.of(
-            new Itineraire(s1, s2, null, 10), 
-            new Itineraire(s1, s3, null, 20)
+            new Itineraire(s1, s2, null, 10, null), 
+            new Itineraire(s1, s3, null, 20, null)
         );
 
         HashMap<Station, Integer> expecteds = new HashMap<>();
