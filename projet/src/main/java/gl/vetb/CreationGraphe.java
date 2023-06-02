@@ -10,9 +10,9 @@ public class CreationGraphe {
         List<Station> listStations = new ArrayList<Station>();
 
         // Création des lignes
-        Ligne l1 = new Ligne("Ligne 1", false);
-        Ligne l2 = new Ligne("Ligne 2", false);
-        Ligne l3 = new Ligne("Ligne 3", false);
+        Ligne l1 = new Ligne("Ligne 1", false, null);
+        Ligne l2 = new Ligne("Ligne 2", false, null);
+        Ligne l3 = new Ligne("Ligne 3", false, null);
 
         listStations.add(new Station("Pontoise", Arrays.asList(l1), false, 60, 4, 13));
         listStations.add(new Station("Clichy", Arrays.asList(l1, l3), false, 70, 4, 11));
@@ -29,48 +29,48 @@ public class CreationGraphe {
         listStations.add(new Station("Versailles", Arrays.asList(l3), false, 45, 3, 3));
 
         // Création des chemins entre les stations
-        Itineraire iPontoiseClichy = new Itineraire(listStations.get(0), listStations.get(1), null, 90);
+        Itineraire iPontoiseClichy = new Itineraire(listStations.get(0), listStations.get(1), null, 90, null);
         
-        Itineraire iClichyPontoise = new Itineraire(listStations.get(1), listStations.get(0), null, 90);
-        Itineraire iClichyTrocadero = new Itineraire(listStations.get(1), listStations.get(2), null, 180);
-        Itineraire iClichyCergy = new Itineraire(listStations.get(1), listStations.get(10), null, 120);
-        Itineraire iClichyClignancourt = new Itineraire(listStations.get(1), listStations.get(11), null, 180);
+        Itineraire iClichyPontoise = new Itineraire(listStations.get(1), listStations.get(0), null, 90, null);
+        Itineraire iClichyTrocadero = new Itineraire(listStations.get(1), listStations.get(2), null, 180, null);
+        Itineraire iClichyCergy = new Itineraire(listStations.get(1), listStations.get(10), null, 120, null);
+        Itineraire iClichyClignancourt = new Itineraire(listStations.get(1), listStations.get(11), null, 180, null);
 
-        Itineraire iTrocaderoClichy = new Itineraire(listStations.get(2), listStations.get(1), null, 180);
-        Itineraire iTrocaderoOrleans = new Itineraire(listStations.get(2), listStations.get(3), null, 120);
+        Itineraire iTrocaderoClichy = new Itineraire(listStations.get(2), listStations.get(1), null, 180, null);
+        Itineraire iTrocaderoOrleans = new Itineraire(listStations.get(2), listStations.get(3), null, 120, null);
         
-        Itineraire iOrleansTrocadero = new Itineraire(listStations.get(3), listStations.get(2), null, 120);
-        Itineraire iOrleansBercy = new Itineraire(listStations.get(3), listStations.get(4), null, 210);
-        Itineraire iOrleansAusterlitz = new Itineraire(listStations.get(3), listStations.get(7), null, 90);
-        Itineraire iOrleansIssy = new Itineraire(listStations.get(3), listStations.get(8), null, 210);
+        Itineraire iOrleansTrocadero = new Itineraire(listStations.get(3), listStations.get(2), null, 120, null);
+        Itineraire iOrleansBercy = new Itineraire(listStations.get(3), listStations.get(4), null, 210, null);
+        Itineraire iOrleansAusterlitz = new Itineraire(listStations.get(3), listStations.get(7), null, 90, null);
+        Itineraire iOrleansIssy = new Itineraire(listStations.get(3), listStations.get(8), null, 210, null);
         
-        Itineraire iBercyOrleans = new Itineraire(listStations.get(4), listStations.get(3), null, 210);
-        Itineraire iBercyAusterlitz = new Itineraire(listStations.get(4), listStations.get(7), null, 150);
-        Itineraire iBercyVincennes = new Itineraire(listStations.get(4), listStations.get(5), null, 90);
-        Itineraire iBercyIssy = new Itineraire(listStations.get(4), listStations.get(8), null, 270);
+        Itineraire iBercyOrleans = new Itineraire(listStations.get(4), listStations.get(3), null, 210, null);
+        Itineraire iBercyAusterlitz = new Itineraire(listStations.get(4), listStations.get(7), null, 150, null);
+        Itineraire iBercyVincennes = new Itineraire(listStations.get(4), listStations.get(5), null, 90, null);
+        Itineraire iBercyIssy = new Itineraire(listStations.get(4), listStations.get(8), null, 270, null);
 
-        Itineraire iVincennesBercy = new Itineraire(listStations.get(5), listStations.get(4), null, 90);
+        Itineraire iVincennesBercy = new Itineraire(listStations.get(5), listStations.get(4), null, 90, null);
 
-        Itineraire iBobignyAusterlitz = new Itineraire(listStations.get(6), listStations.get(7), null, 210);
+        Itineraire iBobignyAusterlitz = new Itineraire(listStations.get(6), listStations.get(7), null, 210, null);
 
-        Itineraire iAusterlitzBobigny = new Itineraire(listStations.get(7), listStations.get(6), null, 210);
-        Itineraire iAusterlitzOrleans = new Itineraire(listStations.get(7), listStations.get(3), null, 90);
-        Itineraire iAusterlitzBercy = new Itineraire(listStations.get(7), listStations.get(4), null, 150);
-        Itineraire iAusterlitzClignancourt = new Itineraire(listStations.get(7), listStations.get(11), null, 180);
+        Itineraire iAusterlitzBobigny = new Itineraire(listStations.get(7), listStations.get(6), null, 210, null);
+        Itineraire iAusterlitzOrleans = new Itineraire(listStations.get(7), listStations.get(3), null, 90, null);
+        Itineraire iAusterlitzBercy = new Itineraire(listStations.get(7), listStations.get(4), null, 150, null);
+        Itineraire iAusterlitzClignancourt = new Itineraire(listStations.get(7), listStations.get(11), null, 180, null);
 
-        Itineraire iIssyOrleans = new Itineraire(listStations.get(8), listStations.get(3), null, 210);
-        Itineraire iIssyBercy = new Itineraire(listStations.get(8), listStations.get(4), null, 210);
-        Itineraire iIssyAntony = new Itineraire(listStations.get(8), listStations.get(9), null, 90);
-        Itineraire iIssyVersailles = new Itineraire(listStations.get(8), listStations.get(12), null, 120);
+        Itineraire iIssyOrleans = new Itineraire(listStations.get(8), listStations.get(3), null, 210, null);
+        Itineraire iIssyBercy = new Itineraire(listStations.get(8), listStations.get(4), null, 210, null);
+        Itineraire iIssyAntony = new Itineraire(listStations.get(8), listStations.get(9), null, 90, null);
+        Itineraire iIssyVersailles = new Itineraire(listStations.get(8), listStations.get(12), null, 120, null);
 
-        Itineraire iAntonyIssy = new Itineraire(listStations.get(9), listStations.get(8), null, 90);
+        Itineraire iAntonyIssy = new Itineraire(listStations.get(9), listStations.get(8), null, 90, null);
 
-        Itineraire iCergyClichy = new Itineraire(listStations.get(10), listStations.get(1), null, 120);
+        Itineraire iCergyClichy = new Itineraire(listStations.get(10), listStations.get(1), null, 120, null);
         
-        Itineraire iClignancourtClichy = new Itineraire(listStations.get(11), listStations.get(1), null, 180);
-        Itineraire iClignancourtAusterlitz = new Itineraire(listStations.get(11), listStations.get(7), null, 180);
+        Itineraire iClignancourtClichy = new Itineraire(listStations.get(11), listStations.get(1), null, 180, null);
+        Itineraire iClignancourtAusterlitz = new Itineraire(listStations.get(11), listStations.get(7), null, 180, null);
 
-        Itineraire iVersaillesIssy = new Itineraire(listStations.get(12), listStations.get(8), null, 120);
+        Itineraire iVersaillesIssy = new Itineraire(listStations.get(12), listStations.get(8), null, 120, null);
 
         // Liste des itinéraires entre les stations
         List<Itineraire> listItineraires = new ArrayList<>(Arrays.asList(iPontoiseClichy, iClichyPontoise, iClichyTrocadero, iClichyCergy, iClichyClignancourt,

@@ -217,7 +217,7 @@ public class Graphe {
                 if (itineraireDepartPassage != null && itinerairePassageArrivee != null) {
                     // Création d'un nouvel itinéraire en combinant les deux itinéraires
                     itineraireAvecPassage = new Itineraire(depart, arrivee, null,
-                        itineraireDepartPassage.getDuree() + itinerairePassageArrivee.getDuree());
+                        itineraireDepartPassage.getDuree() + itinerairePassageArrivee.getDuree(), null);
                     
                     // Ajout des stations intermédiaires en excluant la première station de l'itinéraire de passage
                     List<Station> stationsIntermediaires = new ArrayList<>(itineraireDepartPassage.getStationsIntermediaires());
