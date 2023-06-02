@@ -15,6 +15,13 @@ public class Itineraire {
         this.duree = duree;
     }
 
+    public Itineraire(Station depart, Station arrivee){
+        this.depart = depart;
+        this.arrivee = arrivee;
+        this.stationsIntermediaires = List.of();
+        this.duree = 0;
+    }
+
     public Station getDepart() {
         return depart;
     }
@@ -45,5 +52,13 @@ public class Itineraire {
 
     public void setDuree(int duree) {
         this.duree = duree;
+    }
+
+    public Boolean verifItineraire(Station depart, Station arrivee){
+        return (this.depart == depart && this.arrivee == arrivee);
+    }
+
+    public int calculDureeItineraireSimple (){
+        return getDepart().getTempsArret() + getDuree();
     }
 }
