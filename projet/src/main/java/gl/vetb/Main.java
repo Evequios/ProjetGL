@@ -2,24 +2,12 @@ package gl.vetb;
 
 import java.time.LocalTime;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.InputMismatchException;
 import java.util.List;
 import java.util.Map;
 import java.util.Scanner;
 public class Main {
     public static void main(String[] args) {
-        // Graphe metro = new CreationGraphe().creationGraphe();
-        // List<Station> listStations = metro.getStations();
-        // Itineraire cheminPlusCourt = metro.algoPlusCourtChemin(listStations.get(11), listStations.get(9));
-        // System.out.println("Départ : " + cheminPlusCourt.getDepart().getNom());
-        // System.out.println("Stations intermédiaires : ");
-        // for(Station s : cheminPlusCourt.getStationsIntermediaires()){
-        //     System.out.println(s.getNom());
-        // }
-        // System.out.println("Arrivée : " + cheminPlusCourt.getArrivee().getNom());
-        // System.out.println("Durée : " + cheminPlusCourt.getDuree());
-        
         Graphe metro = new CreationGraphe().creationGraphe();
         Scanner scanner = new Scanner(System.in);
 
