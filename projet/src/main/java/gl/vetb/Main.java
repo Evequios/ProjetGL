@@ -1,9 +1,11 @@
 package gl.vetb;
 
+import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.InputMismatchException;
 import java.util.List;
+import java.util.Map;
 import java.util.Scanner;
 public class Main {
     public static void main(String[] args) {
@@ -118,4 +120,32 @@ public class Main {
                 System.out.println("Durée : " + chemin.getDuree());
 
     }
+
+    // Fonction pour demander l'heure de départ a l'utilisateur
+    public static LocalTime demanderHeureDepart() {
+        Scanner scanner = new Scanner(System.in);
+        System.out.print("Veuillez entrer l'heure de départ (format HH:mm) : ");
+        String heureDepartStr = scanner.nextLine();
+        return LocalTime.parse(heureDepartStr);
+    }
+
+    // Affichage les horaires de passage pour chaque ligne d'itinéraire passé en
+    // param.
+    public static void afficherHorairesPassage(Itineraire itineraire) {
+        System.out.println("Horaires de passage pour chaque ligne :");
+        Map<Ligne, List<Horaire>> horaires = itineraire.getHoraires();
+
+        for (Ligne ligne : horaires.keySet()) {
+            System.out.println("Ligne : " + ligne.getNom());
+
+            List<Horaire> horairesLigne = horaires.get(ligne);
+            for (Horaire horaire : horairesLigne) {
+                System.out.println("Heure de départ : " + horaire.getHeureDepart());
+                System.out.println("Heure d'arrivée : " + horaire.getHeureArrivee());
+            }
+
+            System.out.println("-----------------------");
+        }
+    }
+
 }
